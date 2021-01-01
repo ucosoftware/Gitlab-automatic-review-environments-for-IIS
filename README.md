@@ -1,5 +1,7 @@
 # Gitlab automatic review environments for IIS
 
+![.NET](https://github.com/ucosoftware/Gitlab-automatic-review-environments-for-IIS/workflows/.NET/badge.svg)
+
 If you have IIS server with webdeploy and want to create automatic review environments on it 
 
 * Change token and folder in MainController.cs
