@@ -1,6 +1,6 @@
 # Gitlab automatic review environments for IIS
 
-**How to**
+If you have IIS server with webdeploy and want to create automatic review environments on it 
 
 * Change token and folder in MainController.cs
 * Publish the app
@@ -8,7 +8,8 @@
 * Add review and stop_review stages, see gitlab docs https://docs.gitlab.com/ee/ci/environments/#example-of-setting-dynamic-environment-urls
 * Install curl.exe and sed.exe
 
-See .gitlab-ci.yml Example 
+See .gitlab-ci.yml Example
+
 * Line 7: Create site in IIS using code you published (change some.domain to domain name of your site and change token)
 * Line 8: Replacing site name in webdeploy publish profile (you need to have one)
 * Publishing site using webdeploy
