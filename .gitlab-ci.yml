@@ -1,0 +1,40 @@
+stages:
+  - review
+
+review:
+  stage: review
+  script:
+    - ' "C:\Program Files\curl\bin\curl.exe" --url http://some.domain/Main/AddSite?token=some&name=%CI_BUILD_REF_SLUG%.%APPS_DOMAIN% '
+    - ' "C:\Program Files (x86)\GnuWin32\bin\sed.exe" -i "s/publish-url/%CI_BUILD_REF_SLUG%.%APPS_DOMAIN%/g" "Core/Uco.Start/Properties/PublishProfiles/WebDeploy.pubxml" '
+    - ' dotnet restore --verbosity minimal'
+    - ' dotnet msbuild /nologo /verbosity:minimal /P:DeployOnBuild=True /p:Configuration=Release /P:PublishProfile=WebDeploy /p:IncludeSetAclProviderOnDestination=False /P:AllowUntrustedCertificate=True /P:Password=%PROD_WEBDEPLOY_PASS% '
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    url: http://$CI_BUILD_REF_SLUG.$APPS_DOMAIN
+    on_stop: stop_review
+  only:
+    - branches
+  except:
+    - master
+    - staging
+  tags:
+    - WIN12_CMD
+	
+
+stop_review:
+  stage: review
+  script:
+    - ' "C:\Program Files\curl\bin\curl.exe" --url http://some.domain/Main/RemoveSite?token=some&name=%CI_BUILD_REF_SLUG%.%APPS_DOMAIN% '
+  variables:
+    GIT_STRATEGY: none
+  when: manual
+  only:
+    - branches
+  except:
+    - master
+    - staging
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    action: stop
+  tags:
+    - WIN12_CMD
