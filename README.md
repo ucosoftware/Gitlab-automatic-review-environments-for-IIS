@@ -9,3 +9,7 @@
 * Install curl.exe and sed.exe
 
 See .gitlab-ci.yml Example 
+* Line 7: Create site in IIS using code you published (change some.domain to domain name of your site and change token)
+* Line 8: Replacing site name in webdeploy publish profile (you need to have one)
+* Publishing site using webdeploy
+* Line 27: Delete site on branch delete (change some.domain to domain name of your site)
